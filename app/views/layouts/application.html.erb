@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RxStandardizer</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+  <script type="text/javascript">
+      $(function() {
+          var accordionActive = false;
+
+          $(window).on('resize', function() {
+              var windowWidth = $(window).width();
+              var $topMenu = $('#top-menu');
+              var $sideMenu = $('#side-menu');
+
+              if (windowWidth < 768) {
+                  if ($topMenu.hasClass("active")) {
+                      $topMenu.removeClass("active");
+                      $sideMenu.addClass("active");
+
+                      var $ddl = $('#top-menu .movable.dropdown');
+                      $ddl.detach();
+                      $ddl.removeClass('dropdown');
+                      $ddl.addClass('nav-header');
+
+                      $ddl.find('.dropdown-toggle').removeClass('dropdown-toggle').addClass('link');
+                      $ddl.find('.dropdown-menu').removeClass('dropdown-menu').addClass('submenu');
+
+                      $ddl.prependTo($sideMenu.find('.accordion'));
+                      $('#top-menu #qform').detach().removeClass('navbar-form').prependTo($sideMenu);
+
+                      if (!accordionActive) {
+                          var Accordion2 = function(el, multiple) {
+                              this.el = el || {};
+                              this.multiple = multiple || false;
+
+                              // Variables privadas
+                              var links = this.el.find('.movable .link');
+                              // Evento
+                              links.on('click', {el: this.el, multiple: this.multiple}, this.dropdown);
+                          }
+
+                          Accordion2.prototype.dropdown = function(e) {
+                              var $el = e.data.el;
+                              $this = $(this),
+                                  $next = $this.next();
+
+                              $next.slideToggle();
+                              $this.parent().toggleClass('open');
+
+                              if (!e.data.multiple) {
+                                  $el.find('.movable .submenu').not($next).slideUp().parent().removeClass('open');
+                              };
+                          }
+
+                          var accordion = new Accordion2($('ul.accordion'), false);
+                          accordionActive = true;
+                      }
+                  }
+              }
+              else {
+                  if ($sideMenu.hasClass("active")) {
+                      $sideMenu.removeClass('active');
+                      $topMenu.addClass('active');
+
+                      var $ddl = $('#side-menu .movable.nav-header');
+                      $ddl.detach();
+                      $ddl.removeClass('nav-header');
+                      $ddl.addClass('dropdown');
+
+                      $ddl.find('.link').removeClass('link').addClass('dropdown-toggle');
+                      $ddl.find('.submenu').removeClass('submenu').addClass('dropdown-menu');
+
+                      $('#side-menu #qform').detach().addClass('navbar-form').appendTo($topMenu.find('.nav'));
+                      $ddl.appendTo($topMenu.find('.nav'));
+                  }
+              }
+          });
+
+        /**/
+          var $menulink = $('.side-menu-link'),
+              $wrap = $('.wrap');
+
+          $menulink.click(function() {
+              $menulink.toggleClass('active');
+              $wrap.toggleClass('active');
+              return false;
+          });
+
+        /*Accordion*/
+          var Accordion = function(el, multiple) {
+              this.el = el || {};
+              this.multiple = multiple || false;
+
+              // Variables privadas
+              var links = this.el.find('.link');
+              // Evento
+              links.on('click', {el: this.el, multiple: this.multiple}, this.dropdown);
+          }
+
+          Accordion.prototype.dropdown = function(e) {
+              var $el = e.data.el;
+              $this = $(this),
+                  $next = $this.next();
+
+              $next.slideToggle();
+              $this.parent().toggleClass('open');
+
+              if (!e.data.multiple) {
+                  $el.find('.submenu').not($next).slideUp().parent().removeClass('open');
+              };
+          }
+
+          var accordion = new Accordion($('ul.accordion'), false);
+
+
+      });
+  </script>
+</head>
+<body style="padding: 0px; margin: 0px;">
+<div class="wrap">
+  <nav class="nav-bar navbar-inverse" role="navigation">
+    <div id ="top-menu" class="container-fluid active">
+      <a class="navbar-brand">RxSTD</a>
+      <ul class="nav navbar-nav">
+        <%= form_for :rxnconso, :html => {:class => "navbar-form pull-left", :id => "searchForm"}, :url => "/main/search", :remote => true  do |f| %>
+          <input type="text" class="form-control" name="rxnconso[search]" id="search" data-provide="typeahead" placeholder="Search" required />
+        <% end %>
+        <li class="dropdown movable">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span><span class="fa fa-4x fa-child"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <% if !logged_in %>
+                <li><a href="#"><span class="fa fa-user"></span>My Profile</a></li>
+                <li><a href="#"><span class="fa fa-gear"></span>Settings</a></li>
+                <li class="divider"></li>
+                <li><a href="/logout"><span class="fa fa-power-off"></span>Logout</a></li>
+              <% else %>
+                <li>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <%= form_tag '/login', :class =>'form'  do |f| %>
+                        <div class="form-group" style="width: 90%;margin-left: auto;margin-right: auto;">
+                          <label class="sr-only" for="email">Email address</label>
+                          <%= text_field_tag :email ,nil,type: 'email', required: true,:class=> 'form-control',placeholder: 'Email address'%>
+                        </div>
+                        <div class="form-group" style="width: 90%;margin-left: auto;margin-right: auto;">
+                          <label class="sr-only" for="exampleInputPassword2">Password</label>
+                          <%= password_field_tag :password, nil, :class=> 'form-control',placeholder: 'Password', required: true %>
+                        </div>
+                        <div class="form-group" style="width: 60%;margin-left: auto;margin-right: auto;">
+                          <%= submit_tag "Login", class: 'btn btn-success btn-block' %>
+                        </div>
+                      <% end %>
+                    </div>
+                  </div>
+                </li>
+              <% end %>
+            </ul>
+        </li>
+
+      </ul>
+    </div>
+  </nav>
+  <aside id="side-menu" class="aside" role="navigation">
+    <ul class="nav nav-list accordion">
+      <li class="nav-header">
+        <div class="link" >
+          <i class="fa fa-lg fa-globe"></i>
+          <%= link_to "Home", "/main/summary", remote: true %>
+          <i class="fa fa-chevron-down"></i>
+        </div>
+      </li>
+
+      <li class="nav-header">
+        <div class="link" ><i class="fa fa-lg fa-globe"></i>
+          <%= link_to "Batch Search", "/batch_jobs", remote: true %><i class="fa fa-chevron-down"></i>
+        </div>
+      </li>
+      <% if !logged_in %>
+        <li class="nav-header">
+          <div class="link"><i class="fa fa-lg fa-users"></i>
+            <%= link_to "Users", "/users", remote: true %>
+            <i class="fa fa-chevron-down"></i>
+          </div>
+        </li>
+      <% end %>
+      <li class="nav-header">
+        <div class="link"><i class="fa fa-lg fa-file-image-o"></i>Reports<i class="fa fa-chevron-down"></i></div>
+        <ul class="submenu">
+          <li><a href="#">New Potential Matches</a></li>
+          <li><a href="#">Coverage Assessments</a></li>
+          <li><a href="#">General Report</a></li>
+        </ul>
+      </li>
+
+    </ul>
+  </aside>
+
+  <!--Body content-->
+  <div class="content">
+    <section class="content-inner" >
+        <%= yield%>
+    </section>
+  </div>
+
+</div>
+
+<script type="text/javascript">
+    $( "#search" ).autocomplete({
+        source: "/suggestions",
+        minLength: 2,
+        change: function(event,ui)
+        {
+            if (ui.item==null)
+            {
+                $("#search").val('');
+                $("#search").focus();
+            }
+        }
+    });
+</script>
+</body>
+</html>

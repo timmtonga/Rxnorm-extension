@@ -1,0 +1,7 @@
+<% if (@concepts.blank?) %>
+  $('div#content_main').html("<%= j render('main/search') %>");
+<% elsif (@concepts.length > 1 )%>
+  $('div#content_main').html("<%= j render('rxnconso/index') %>");
+<% else %>
+  $('div#content_main').html("<%= j render('rxnconso/show') %>");
+<% end %>

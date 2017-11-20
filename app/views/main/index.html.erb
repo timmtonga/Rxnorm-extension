@@ -1,0 +1,7 @@
+<div id="content_main">
+  <% if @partial.blank?  %>
+    <%= render '/main/summary' %>
+  <% else %>
+      <%= render @partial %>
+  <% end %>
+</div>
