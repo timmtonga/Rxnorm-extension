@@ -68,7 +68,6 @@
     var inh = 0;
     function check_progress()
     {
-        console.log('checking progress')
         if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttp=new XMLHttpRequest();
         }else{// code for IE6, IE5
@@ -94,10 +93,12 @@
         xmlhttp.send();
     }
 
-    $(document).ready(function() {
-        waitingDialog.show('Processing batch search');
+    <% if @records.blank? %>
+      $(document).ready(function() {
+          waitingDialog.show('Processing batch search');
 
-    } );
+      } );
+    <% end %>
 
     setInterval("check_progress()",90000)
 </script>

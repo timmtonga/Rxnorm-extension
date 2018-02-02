@@ -13,12 +13,13 @@ Rails.application.routes.draw do
   get '/main/summary'
   get '/main/new_batch_search'
   post '/main/search'
-  post '/main/batch_search'
+  # post '/main/batch_search'
   get '/main/search_status'
 
   resources :users
   resources :rxnconso
   resources :batch_jobs
+  resources :search_items
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

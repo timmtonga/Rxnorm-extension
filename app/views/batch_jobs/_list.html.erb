@@ -76,15 +76,16 @@
       </tr>
       </thead>
       <tbody>
-      <% (@searches || []).each do |search| %>
+      <% (@records || []).each do |search| %>
           <tr>
-            <td><%= search['name']%></td>
-            <td><%= search['started_at']%></td>
-            <td><%= search['coverage']%></td>
-            <td><%= search['status']%></td>
+            <td><%= search.batch_name %></td>
+            <td><%= search.created_at.strftime('%d-%b-%Y %H:%M') %></td>
+            <td><%= 0 %></td>
+            <td><%= search.status %></td>
             <td class="text-center">
-              <a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a>
-              <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a>
+              <%= link_to "<span class='glyphicon glyphicon-eye-open'></span> View".html_safe,
+                          "/batch_jobs/#{search.id}",class: 'btn btn-info btn-xs', remote: true %>
+
             </td>
           </tr>
       <% end %>

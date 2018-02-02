@@ -5,6 +5,7 @@ class CreateSearchItems < ActiveRecord::Migration
       t.string :search_term, null: false
       t.string :potential_matches
       t.string :confirmed_matches
+      t.string :match_method
       t.string :status, null: false
       t.timestamps null: false
     end
