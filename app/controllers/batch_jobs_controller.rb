@@ -5,7 +5,7 @@ class BatchJobsController < ApplicationController
 
   def index
     @partial = "/batch_jobs/list"
-    @records = BatchJob.last(15)
+    @records = BatchJob.all.order(created_at: :desc)
     respond_to do |format|
       format.html { render root_path }
       format.js {}
@@ -15,6 +15,7 @@ class BatchJobsController < ApplicationController
   def show
     @partial = "/batch_jobs/show"
     @records = SearchItem.where(job_id: params[:id], status: %w[Matched Verified])
+    @job = params[:id]
     respond_to do |format|
       format.html { render root_path }
       format.js {}
@@ -34,4 +35,9 @@ class BatchJobsController < ApplicationController
     BatchMatchJob.perform_later new_job.id
   end
 
+  def show_update
+    records = SearchItem.where(job_id: params[:id], status: %w[Matched Verified]) rescue []
+    results = view_context.preprocess_update(records)
+    render :text =>  results.to_json
+  end
 end

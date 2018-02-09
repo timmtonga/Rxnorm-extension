@@ -1,8 +1,36 @@
+<div class="row">
+  <div class="col-md-9 col-md-offset-1">
+    <table class="table table-striped table-bordered custab">
+      <thead>
+      <tr>
+        <th>Searched Item</th>
+        <th>Number of Matches</th>
+        <th>Confirmed Match</th>
+        <th>Status</th>
+        <th style="text-align: center">Action</th>
+      </tr>
+      </thead>
+      <tbody id="content-body">
+      <% (@records || []).each do |search| %>
+          <tr id="item-<%= search.id %>">
+            <td><%= search.search_term %></td>
+            <td style="text-align: center;"><%= search.matches %></td>
+            <td><%= search.confirmed_match %></td>
+            <td><%= search.display_status %></td>
+            <td class="text-center">
+              <%= link_to "<span class='glyphicon glyphicon-eye-open'></span> Verify".html_safe,
+                          "/search_items/#{search.id}/edit",class: 'btn btn-info btn-xs', remote: true %>
 
+            </td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
 
 
 <script type="text/javascript">
-
     var waitingDialog = waitingDialog || (function ($) {
             'use strict';
 
@@ -65,40 +93,11 @@
 
         })(jQuery);
 
-    var inh = 0;
-    function check_progress()
-    {
-        if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttp=new XMLHttpRequest();
-        }else{// code for IE6, IE5
-            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        xmlhttp.onreadystatechange=function() {
-            if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                var results = xmlhttp.responseText;
-                if(results == 'undefined' || results == '' || results == 'null' || results == '"not validate"') {
-                    return ;
-                }else if(results.length > 0){
-                    inh += 1;
-                    if (inh > 3){
-                        waitingDialog.hide();
-                    }
-                }else{
-                    //document.getElementById('reporter').innerHTML = "....";
-                    return ;
-                }
-            }
-        }
-        xmlhttp.open("GET",'/main/search_status' ,true);
-        xmlhttp.send();
-    }
-
     <% if @records.blank? %>
       $(document).ready(function() {
           waitingDialog.show('Processing batch search');
-
       } );
     <% end %>
 
-    setInterval("check_progress()",90000)
+    setInterval("check_job_progress('/batch_jobs/show_update/<%= @job %>','addNewRows')",9000)
 </script>

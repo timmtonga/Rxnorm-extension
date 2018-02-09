@@ -80,7 +80,7 @@
           <tr>
             <td><%= search.batch_name %></td>
             <td><%= search.created_at.strftime('%d-%b-%Y %H:%M') %></td>
-            <td><%= 0 %></td>
+            <td style="padding-left: 5px;"><%= search.display_coverage %></td>
             <td><%= search.status %></td>
             <td class="text-center">
               <%= link_to "<span class='glyphicon glyphicon-eye-open'></span> View".html_safe,

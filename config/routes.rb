@@ -18,8 +18,13 @@ Rails.application.routes.draw do
 
   resources :users
   resources :rxnconso
-  resources :batch_jobs
   resources :search_items
+  resources :batch_jobs do
+    collection do
+      get 'show_update/:id' => 'batch_jobs#show_update'
+    end
+  end
+
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
