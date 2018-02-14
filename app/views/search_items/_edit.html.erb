@@ -1,0 +1,15 @@
+<%= form_for :search_item, method: :PATCH, url: @item,authenticity_token: true,remote: true, html: {id: 'confirmMatch'} do |f| %>
+    <% (@options || []).each do |key,value| %>
+        <div class="form-group has-feedback">
+          <label class="input-group" style="">
+                        <span class="input-group-addon">
+                            <input type="radio" name="confirmed_matches" value="<%=key%>" required="true"/>
+                        </span>
+            <div class="form-control form-control-static">
+              <%= @options[key]%>
+            </div>
+            <span class="glyphicon form-control-feedback "></span>
+          </label>
+        </div>
+    <% end %>
+<% end %>
