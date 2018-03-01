@@ -7,7 +7,7 @@ class BatchJobsController < ApplicationController
     @partial = "/batch_jobs/list"
     @records = BatchJob.all.order(created_at: :desc)
     respond_to do |format|
-      format.html { render root_path }
+      format.html { render 'main/index' }
       format.js {}
     end
   end
@@ -17,7 +17,7 @@ class BatchJobsController < ApplicationController
     @records = SearchItem.where(job_id: params[:id], status: %w[Matched Verified])
     @job = params[:id]
     respond_to do |format|
-      format.html { render root_path }
+      format.html { render 'main/index' }
       format.js {}
     end
   end

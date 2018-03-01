@@ -2,7 +2,7 @@ class SearchItemsController < ApplicationController
   def index
     @partial = "/search_items/list"
     respond_to do |format|
-      format.html { render root_path }
+      format.html { render 'main/index' }
       format.js {}
     end
   end
@@ -10,7 +10,7 @@ class SearchItemsController < ApplicationController
   def show
     @partial = "/search_items/show"
     respond_to do |format|
-      format.html { render root_path }
+      format.html { render 'main/index' }
       format.js {}
     end
   end
@@ -39,7 +39,7 @@ class SearchItemsController < ApplicationController
     @item = SearchItem.find(params[:id])
     @options = view_context.potential_matches(@item)
     respond_to do |format|
-      format.html { render root_path }
+      format.html { render 'main/index' }
       format.js {}
     end
   end

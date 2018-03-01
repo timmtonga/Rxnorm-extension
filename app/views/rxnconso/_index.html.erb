@@ -31,7 +31,9 @@
             <td><%= concept['STR']%></td>
             <td><%= get_value('tty', concept['TTY']) %></td>
             <td class="text-center">
-              <%= link_to "View", "/rxnconso/#{concept['RXAUI']}", remote: true %><i class="fa fa-chevron-down"></i>
+              <%= link_to "<span class='glyphicon glyphicon-eye-open'></span> View".html_safe,
+                          "/rxnconso/#{concept['RXAUI']}",class: 'btn btn-primary',
+                          remote: true %><i class="fa fa-chevron-down"></i>
             </td>
           </tr>
       <% end %>

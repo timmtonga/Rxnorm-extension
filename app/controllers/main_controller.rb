@@ -1,21 +1,21 @@
 class MainController < ApplicationController
   def index
     respond_to do |format|
-      format.html { render :index }
+      format.html { render 'main/index' }
       format.js {}
     end
   end
 
   def new_batch_search
     respond_to do |format|
-      format.html { render :new_batch_search }
+      format.html { render 'main/index' }
       format.js {}
     end
   end
 
   def summary
     respond_to do |format|
-      format.html { render :index }
+      format.html { render 'main/index' }
       format.js {}
     end
   end
@@ -28,7 +28,7 @@ class MainController < ApplicationController
       @data << row[0]
     end
     respond_to do |format|
-      format.html { render :index }
+      format.html { render 'main/index' }
       format.js {}
     end
   end

@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   def index
     @users= User.all.limit(15)
     respond_to do |format|
-      format.html { render root_path }
+      format.html { render 'main/index' }
       format.js {}
     end
   end
