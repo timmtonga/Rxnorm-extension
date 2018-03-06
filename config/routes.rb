@@ -11,14 +11,20 @@ Rails.application.routes.draw do
 
   get '/suggestions' => 'main#suggestions'
   get '/main/summary'
+  get '/main/faq'
   get '/main/new_batch_search'
   post '/main/search'
   # post '/main/batch_search'
   get '/main/search_status'
 
   resources :users
-  resources :rxnconso
+  resources :rxnconso do
+    collection do
+      get 'ingredient_suggestion'
+    end
+  end
   resources :search_items
+  resources :local_concepts
   resources :batch_jobs do
     collection do
       get 'show_update/:id' => 'batch_jobs#show_update'

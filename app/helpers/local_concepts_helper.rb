@@ -1,0 +1,2 @@
+module LocalConceptsHelper
+end

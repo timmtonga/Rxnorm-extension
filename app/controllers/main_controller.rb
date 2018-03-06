@@ -43,6 +43,13 @@ class MainController < ApplicationController
     end
   end
 
+  def faq
+    respond_to do |format|
+      format.html { render :search }
+      format.js {}
+    end
+  end
+
   def suggestions
 
     @items = Rxnconso.where("STR like ?", "%#{params[:term]}%").limit(10).collect{|x| x.STR.humanize.gsub(/\b('?[a-z])/) { $1.capitalize }}.uniq

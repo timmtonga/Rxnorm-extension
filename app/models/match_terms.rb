@@ -1,6 +1,8 @@
 module MatchTerms
 
-  $stop_terms = ['tablet', 'capsule', 'injection', 'tab', 'ml', 'mg']
+  $stop_terms = ['tablet', 'capsule', 'injection', 'tab', 'ml', 'mg', 'inhalant', 'inhaler','spray', 'liquid',
+                 'cream', 'foam', 'liquid cleanser', 'oil','solution','suspension','lotion','bar', 'gel', 'jelly',
+                 'ointment','patch', 'powder','suppository']
 
   def self.search(job_id)
     items = SearchItem.where(job_id: job_id)
@@ -33,6 +35,7 @@ module MatchTerms
       end
     else
       search_item.potential_matches = em_result.join(',')
+      search_item.confirmed_matches = em_result.first unless em_result.length > 1
     end
     search_item.status = 'matched'
     search_item.save
@@ -65,7 +68,7 @@ module MatchTerms
     end
 
     #Check partial matches in the rest of the search string
-    partials = replace_punctuation(item).split(' ')
+    partials = replace_punctuation(item.downcase).split(' ')
 
     clean_partials = partials - $stop_terms
     partial_wild_cards = clean_partials.join("%' OR '%")

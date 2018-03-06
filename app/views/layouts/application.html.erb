@@ -121,18 +121,8 @@
 <body style="padding: 0px; margin: 0px;">
 <div class="modal fade" id="appModal" tabindex="-1" role="dialog" aria-labelledby="appModalTitle" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header" id="">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <span id="headerTitle"><h4 class="modal-title" id="appModalTitle">Modal title</h4></span>
-      </div>
-      <div id="appModalBody" class="modal-body" style="max-height: 50vh;overflow-x: auto;">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="appModalSaveBtn">Save changes</button>
-      </div>
+    <div class="modal-content" id="appModalContent">
+
     </div>
   </div>
 </div>
@@ -192,6 +182,11 @@
       <li class="nav-header">
         <div class="link" ><i class="fa fa-lg fa-globe"></i>
           <%= link_to "Batch Search", "/batch_jobs", remote: true %><i class="fa fa-chevron-down"></i>
+        </div>
+      </li>
+      <li class="nav-header">
+        <div class="link" ><i class="fa fa-lg fa-globe"></i>
+          <%= link_to "FAQ", "/main/faq", remote: true %><i class="fa fa-chevron-down"></i>
         </div>
       </li>
       <% if !logged_in %>

@@ -14,9 +14,13 @@ class SearchItem < ActiveRecord::Base
     if self.confirmed_matches.blank?
       return 'None'
     else
-      return "#{} (#{self.confirmed_matches})"
+      return "#{confirmed_matches_name} (#{self.confirmed_matches})"
     end
 
+  end
+
+  def confirmed_matches_name
+    Rxnconso.where(RXAUI: self.confirmed_matches).pluck(:STR).join(' , ')
   end
 
 end

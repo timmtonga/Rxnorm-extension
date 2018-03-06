@@ -1,0 +1,127 @@
+<style>
+  .row{
+    margin-top:40px;
+    padding: 0 10px;
+  }
+
+  .clickable{
+    cursor: pointer;
+  }
+
+  .panel-heading span {
+    margin-top: -20px;
+    font-size: 15px;
+  }
+</style>
+
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+  <h3 class="modal-title" id="lineModalLabel">Add New Concept</h3>
+</div>
+<%= form_for :local_concept,authenticity_token: true,url: local_concepts_path,remote: true,html: {id: 'newConcept'} do |f| %>
+    <div class="modal-body">
+      <div class="col-md-12">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Basic Information</h3>
+            <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+          </div>
+          <div class="panel-body">
+            <div style="display: table-row;">
+              <div style="display: table-cell;padding: 5px;text-align: right">Brand Name</div>
+              <div style="display: table-cell;padding: 5px;width: 18vw;">
+                <%= f.text_field :brand_name ,class: 'form-control'%>
+              </div>
+            </div>
+            <div style="display: table-row">
+              <div style="display: table-cell;text-align: right">Dose Form</div>
+              <div style="display: table-cell;padding: 5px;width: 18vw;">
+                <%= f.select(:dose_form,options_for_select(dose_forms),{},{class: 'form-control',required: true}) %>
+              </div>
+            </div>
+            <div style="display: table-row">
+              <div style="display: table-cell;text-align: right">Drug Identifier (eg: NDC)</div>
+              <div style="display: table-cell;padding: 5px;width: 18vw;">
+                <%= f.text_field :identifier ,class: 'form-control', required: true%>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Active Ingredients</h3>
+            <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+          </div>
+          <div class="panel-body">
+            <div style="display: table-row;">
+              <div style="display: table-cell;padding: 5px;text-align: right">&nbsp;</div>
+              <div style="display: table-cell;padding: 5px;">Ingredient</div>
+              <div style="display: table-cell;padding: 5px;width: 7vw;">Dose Strength</div>
+              <div style="display: table-cell;padding: 5px;width: 5vw;">Dose Unit</div>
+            </div>
+            <% 6.times do |i|%>
+              <div style="display: table-row;">
+                <div style="display: table-cell;padding: 5px;text-align: right"><%= i+1 %>.</div>
+                <div style="display: table-cell;padding: 5px;">
+                  <%= f.text_field "ingredients[#{i}][ingredient]" ,class: 'form-control'%>
+                </div>
+                <div style="display: table-cell;padding: 5px;">
+                  <%= f.number_field("ingredients[#{i}][dose_strength]",{class: 'form-control',min: 0}) %>
+                </div>
+                <div style="display: table-cell;">
+                  <%= f.select("ingredients[#{i}][dose_unit]",options_for_select(dose_units),{},{class: 'form-control'}) %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%= f.hidden_field :batch_job, :value => (@batch_job rescue  nil) %>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      <%= f.submit 'Save', class:"btn btn-success"%>
+    </div>
+<% end %>
+
+<script type="text/javascript">
+    $(document).on('click', '.panel-heading span.clickable', function(e){
+        var $this = $(this);
+        if(!$this.hasClass('panel-collapsed')) {
+            $this.parents('.panel').find('.panel-body').slideUp();
+            $this.addClass('panel-collapsed');
+            $this.find('i').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+        } else {
+            $this.parents('.panel').find('.panel-body').slideDown();
+            $this.removeClass('panel-collapsed');
+            $this.find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+        }
+    })
+    /*
+    $(document).ready(function() {
+        $('#rootwizard').bootstrapWizard({onNext: function(tab, navigation, index) {
+            if(index==2) {
+                // Make sure we entered the name
+                if(!$('#name').val()) {
+                    alert('You must enter your name');
+                    $('#name').focus();
+                    return false;
+                }
+            }
+
+            // Set the name for the next tab
+            $('#tab3').html('Hello, ' + $('#name').val());
+
+        }, onTabShow: function(tab, navigation, index) {
+            var $total = navigation.find('li').length;
+            var $current = index+1;
+            var $percent = ($current/$total) * 100;
+            $('#rootwizard .progress-bar').css({width:$percent+'%'});
+        }});
+    });*/
+</script>

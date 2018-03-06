@@ -174,18 +174,65 @@ ActiveRecord::Schema.define(version: 20171120200610) do
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "local_concepts", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "RXCUI",      limit: 255
+    t.string   "LAT",        limit: 255
+    t.string   "TS",         limit: 255
+    t.string   "LUI",        limit: 255
+    t.string   "STT",        limit: 255
+    t.string   "SUI",        limit: 255
+    t.string   "ISPREF",     limit: 255
+    t.string   "RXAUI",      limit: 255
+    t.string   "SAUI",       limit: 255
+    t.string   "SCUI",       limit: 255
+    t.string   "SDUI",       limit: 255
+    t.string   "SAB",        limit: 255
+    t.string   "TTY",        limit: 255
+    t.string   "CODE",       limit: 255
+    t.string   "STR",        limit: 255
+    t.string   "SRL",        limit: 255
+    t.string   "SUPPRESS",   limit: 255
+    t.string   "CVF",        limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "local_relationships", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "RXCUI1",     limit: 255
+    t.string   "RXAUI1",     limit: 255
+    t.string   "STYPE1",     limit: 255
+    t.string   "REL",        limit: 255
+    t.string   "RXCUI2",     limit: 255
+    t.string   "RXAUI2",     limit: 255
+    t.string   "STYPE2",     limit: 255
+    t.string   "RELA",       limit: 255
+    t.string   "RUI",        limit: 255
+    t.string   "SRUI",       limit: 255
+    t.string   "SAB",        limit: 255
+    t.string   "SL",         limit: 255
+    t.string   "DIR",        limit: 255
+    t.string   "RG",         limit: 255
+    t.string   "SUPPRESS",   limit: 255
+    t.string   "CVF",        limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "local_sats", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "RXCUI",      limit: 255
+    t.string   "LUI",        limit: 255
+    t.string   "SUI",        limit: 255
+    t.string   "RXAUI",      limit: 255
+    t.string   "STYPE",      limit: 255
+    t.string   "CODE",       limit: 255
+    t.string   "ATUI",       limit: 255
+    t.string   "SATUI",      limit: 255
+    t.string   "ATN",        limit: 255
+    t.string   "SAB",        limit: 255
+    t.string   "ATV",        limit: 255
+    t.string   "SUPPRESS",   limit: 255
+    t.string   "CVF",        limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "search_items", primary_key: "search_item_id", force: :cascade do |t|

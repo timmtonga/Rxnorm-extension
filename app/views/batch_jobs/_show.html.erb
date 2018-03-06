@@ -19,7 +19,7 @@
             <td><%= search.display_status %></td>
             <td class="text-center">
               <%= link_to "<span class='glyphicon glyphicon-plus'></span> Add Entry".html_safe,
-                          "/search_items/#{search.id}/new",class: 'btn btn-success',
+                          "/local_concepts/new?id=#{search.id}",class: 'btn btn-success',
                           'disabled'=> (search.status.downcase == 'verified' ? true : false),
                           'data-toggle' => 'modal', 'data-target'=> '#appModal', 'data-remote' => 'true' %>
               <%= link_to "<span class='glyphicon glyphicon-eye-open'></span> Verify".html_safe,

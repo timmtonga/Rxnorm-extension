@@ -1,0 +1,5 @@
+<% if @has_batch_job %>
+  $('div#content_main').html("<%= j render('/batch_jobs/show') %>");
+<% else %>
+  $('div#content_main').html("<%= j render('/local_concepts/show') %>");
+<% end %>

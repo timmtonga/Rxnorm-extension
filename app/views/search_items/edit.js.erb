@@ -1,6 +1,1 @@
-$('div#appModalBody').html("<%= j render('/search_items/edit') %>");
-$('span#headerTitle').html("<h4>Confirm search term match</h4><b>Search Term :</b> <%= @item.search_term %><br/><b>Potential Matches :</b> <%= @item.matches %>");
-$('button#appModalSaveBtn').html("Confirm Match");
-$('button#appModalSaveBtn').mousedown(function() {
-    document.forms['confirmMatch'].submit()
-});
+$('div#appModalContent').html("<%= j render('/search_items/edit') %>");
