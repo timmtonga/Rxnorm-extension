@@ -132,7 +132,13 @@
       <a class="navbar-brand">RxSTD</a>
       <ul class="nav navbar-nav">
         <%= form_for :rxnconso, :html => {:class => "navbar-form pull-left", :id => "searchForm"}, :url => "/main/search", :remote => true  do |f| %>
-          <input type="text" class="form-control" name="rxnconso[search]" id="search" data-provide="typeahead" placeholder="Search" required />
+            <div class="input-group">
+              <input type="text" class="form-control" name="rxnconso[search]" id="search" data-provide="typeahead" placeholder="Search ..." required />
+              <span class="input-group-btn">
+                <%= f.submit "Search", class: "btn btn-secondary" %>
+              </span>
+            </div>
+
         <% end %>
         <li class="dropdown movable">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span><span class="fa fa-4x fa-child"></span></a>

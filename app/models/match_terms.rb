@@ -7,29 +7,36 @@ module MatchTerms
                  'mcg/ml','mg/ml','ng/ml','% w/w','% w/v','% v/v']
 
   def self.search(job_id)
-    items = SearchItem.where(job_id: job_id)
+    item_ids = SearchItem.where(job_id: job_id).pluck(:search_term_id)
 
     #1. Normalize the search string
     #2. exact_matches with normalized and original search string
     #3. Do fuzzy matching on the rest.
     t1 = Time.now
-    puts "Started at : #{ t1}"
 
-    (items || []).each do |item|
-      match(item)
+    cores = Concurrent.physical_processor_count
+    item_ids = item_ids.in_groups((cores > 1 ? (cores -1) : 1))
+    (item_ids || []).each do |id_set|
+      (id_set || []).each do |item|
+        next if item.blank?
+        match(item)
+      end
     end
 
-    puts "Started at : #{ t1}"
-    puts "Finished at : #{Time.now}"
     t2 = Time.now
-    elapsed = time_diff_milli t1, t2
 
     job = BatchJob.find_by_job_id(job_id)
     job.status = "Complete"
     job.save
+
+    elapsed = time_diff_milli t1, t2
+    puts "Started at : #{ t1}"
+    puts "Finished at : #{t2}"
+    puts "Time taken : #{elapsed}"
   end
 
-  def self.match(search_item)
+  def self.match(search_item_id)
+    search_item = SearchItem.find(search_item_id)
     em_result = exact_match(search_item.search_term)
     if em_result.blank?
       fz_result = fuzzy_match(search_item.search_term)
@@ -47,10 +54,6 @@ module MatchTerms
   def self.exact_match(item)
     w = Rxnconso.where("STR = ?",item).pluck(:RXAUI)
     return w
-  end
-
-  def self.lavenshtein_match(item)
-    return []
   end
 
   def self.fuzzy_match(item)
