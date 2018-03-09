@@ -16,7 +16,7 @@
 // = require bootstrap-sprockets
 //= require_tree .
 
-function check_job_progress(link,handler)
+function check_job_progress(link,handler,target)
 {
     if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
         xmlhttp=new XMLHttpRequest();
@@ -29,7 +29,7 @@ function check_job_progress(link,handler)
             if(results == 'undefined' || results == '' || results == 'null' || results == '"not validate"') {
                 return ;
             }else if(results.length > 0){
-                eval(handler + '(' + results +')' )
+                eval(handler + '(' + results +','+ target +')' )
             }else{
                 return ;
             }
@@ -37,13 +37,4 @@ function check_job_progress(link,handler)
     }
     xmlhttp.open("GET",link ,true);
     xmlhttp.send();
-}
-
-function addNewRows(records)
-{
-    for(i = 0; i < records.length; i++ )
-    {
-
-        //console.log(records[i]['term'])
-    }
 }

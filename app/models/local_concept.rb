@@ -29,6 +29,14 @@ class LocalConcept < ActiveRecord::Base
     end
   end
 
+  def self.deprecated_concepts_count
+    LocalConcept.where(SUPPRESS:  'O').count
+  end
+
+  def self.deprecated_concepts
+    LocalConcept.where(SUPPRESS:  'O')
+  end
+
   private
   def next_concept_num
     last_cui = LocalConcept.select(:RXCUI).where("left(RXCUI, 1) = 'C'").order('RXCUI DESC').first.cui rescue 0

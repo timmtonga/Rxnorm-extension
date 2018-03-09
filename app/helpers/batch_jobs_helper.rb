@@ -1,11 +1,12 @@
 module BatchJobsHelper
   def preprocess_update(records)
-    results = []
+    results = {status: '', arrays:[]}
     (records || []).each do |record|
-      results << { 'term': record.search_term, 'matches': record.matches, id: record.id,
-                  'confirmed_match': record.confirmed_match,'status': record.display_status
-      }
+
+      results[:arrays] << [record.id,record.search_term, record.matches,record.confirmed_match,record.display_status,
+                           "<a href='/local_concepts/new?id=#{record.id}' class= 'btn btn-success' data-toggle = 'modal' data-target = '#appModal' data-remote = 'true'><span class='glyphicon glyphicon-plus'></span> Add Entry</a> <a href='/search_items/#{record.id}/edit' class= 'btn btn-primary' data-toggle = 'modal' data-target = '#appModal' data-remote = 'true'><span class='glyphicon glyphicon-eye-open'></span>Verify</a>".html_safe]
     end
+    results['status'] = records.first.batch_job.status
     return results
   end
 end

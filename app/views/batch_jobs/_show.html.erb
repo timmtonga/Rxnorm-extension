@@ -1,20 +1,23 @@
-<div class="row">
+
+<div class="row" style="margin-top: 3vh;">
   <div class="col-md-9 col-md-offset-1">
-    <table class="table table-striped table-bordered custab">
+    <table id="searchItems" class="table table-striped table-bordered">
       <thead>
       <tr>
+        <th>&nbsp;</th>
         <th>Searched Item</th>
         <th>Number of Matches</th>
         <th>Confirmed Match</th>
         <th>Status</th>
-        <th style="text-align: center">Action</th>
+        <th style="text-align: center; min-width: 14vw;">Action</th>
       </tr>
       </thead>
       <tbody id="content-body">
       <% (@records || []).each do |search| %>
           <tr id="item-<%= search.id %>">
+            <td><%= search.id %></td>
             <td><%= search.search_term %></td>
-            <td style="text-align: center;"><%= search.matches %></td>
+            <td><span style="text-align: center;"><%= search.matches %></span></td>
             <td><%= search.confirmed_match %></td>
             <td><%= search.display_status %></td>
             <td class="text-center">
@@ -33,8 +36,20 @@
   </div>
 </div>
 
-
 <script type="text/javascript">
+    var table = $('#searchItems').DataTable(
+        {  "lengthChange": false,
+            "pageLength": 13,
+            "columnDefs": [
+                {
+                    "targets": [ 0 ],
+                    'sortable': true,
+                    "visible": false,
+                    "searchable": false
+                }]
+        }
+    );
+
     var waitingDialog = waitingDialog || (function ($) {
             'use strict';
 
@@ -103,5 +118,31 @@
       } );
     <% end %>
 
-    //setInterval("check_job_progress('/batch_jobs/show_update/<%= @job %>','addNewRows')",9000)
+    function addNewRows(records,target)
+    {
+        table
+            .clear()
+            .draw();
+        table.rows.add(records['arrays']).draw( false );
+        if (records['status'] == 'In Progress')
+        {
+            myTime = setTimeout("check_job_progress('/batch_jobs/show_update/<%= @job %>','addNewRows','searchItems')",90000)
+        }
+        else
+        {
+            clearTimeout(myTime);
+        }
+
+        /*for(var i = 0; i < records['arrays'].length; i++)
+        {
+            table.row.add(records['arrays'][i]).draw( false );
+        }*/
+        waitingDialog.hide();
+    }
+    <% if @status == 'In Progress'%>
+      var myTime;
+      myTime = setTimeout("check_job_progress('/batch_jobs/show_update/<%= @job %>','addNewRows','searchItems')",90000)
+    <% else %>
+      clearTimeout(myTime);
+    <% end %>
 </script>

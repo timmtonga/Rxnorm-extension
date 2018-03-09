@@ -98,12 +98,12 @@ class LocalConceptsController < ApplicationController
     end
 
     if params[:local_concept][:batch_job].blank?
+      @partial = '/local_concepts/show'
+      @concept = item
+    else
       @partial = '/batch_jobs/show'
       @job = params[:local_concept][:batch_job]
       @records = SearchItem.where(job_id: @job, status: %w[Matched Verified])
-    else
-      @partial = '/local_concepts/show'
-      @concept = item
     end
 
     respond_to do |format|

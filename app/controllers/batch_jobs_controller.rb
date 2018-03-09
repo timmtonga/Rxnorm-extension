@@ -16,6 +16,7 @@ class BatchJobsController < ApplicationController
     @partial = "/batch_jobs/show"
     @records = SearchItem.where(job_id: params[:id], status: %w[Matched Verified])
     @job = params[:id]
+    @status = BatchJob.find(@job).status
     respond_to do |format|
       format.html { render 'main/index' }
       format.js {}

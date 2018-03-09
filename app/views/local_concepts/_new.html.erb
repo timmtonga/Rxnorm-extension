@@ -66,13 +66,16 @@
               <div style="display: table-row;">
                 <div style="display: table-cell;padding: 5px;text-align: right"><%= i+1 %>.</div>
                 <div style="display: table-cell;padding: 5px;">
-                  <%= f.text_field "ingredients[#{i}][ingredient]" ,class: 'form-control'%>
+                  <%= f.text_field "ingredients[#{i}][ingredient]", required:(i == 0 ? true : false),
+                                   class: 'form-control'%>
                 </div>
                 <div style="display: table-cell;padding: 5px;">
-                  <%= f.number_field("ingredients[#{i}][dose_strength]",{class: 'form-control',min: 0}) %>
+                  <%= f.number_field("ingredients[#{i}][dose_strength]",
+                                     {class: 'form-control',min: 0, step: '0.0001',required:(i == 0 ? true : false)}) %>
                 </div>
                 <div style="display: table-cell;">
-                  <%= f.select("ingredients[#{i}][dose_unit]",options_for_select(dose_units),{},{class: 'form-control'}) %>
+                  <%= f.select("ingredients[#{i}][dose_unit]",options_for_select(dose_units),{},
+                               {class: 'form-control', required:(i == 0 ? true : false)}) %>
                 </div>
               </div>
             <% end %>
@@ -102,6 +105,7 @@
             $this.find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
         }
     })
+
     /*
     $(document).ready(function() {
         $('#rootwizard').bootstrapWizard({onNext: function(tab, navigation, index) {
