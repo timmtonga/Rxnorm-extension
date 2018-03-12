@@ -11,4 +11,14 @@ class BatchJob < ActiveRecord::Base
   def display_coverage
     return "#{(coverage*100).round(2)} %"
   end
+
+  def processed
+    matched = self.search_items.where(status: %w[Matched Verified]).count
+    total = self.search_items.count
+    return (matched.to_f/total)
+  end
+
+  def display_processed
+    return "#{(processed*100).round(2)} %"
+  end
 end

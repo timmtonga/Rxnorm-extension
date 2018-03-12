@@ -4,8 +4,8 @@ class LocalConceptsController < ApplicationController
       format.html { render 'main/index' }
       format.js {}
     end
+    @item = (params[:id].blank? ? nil : SearchItem.find(params[:id]) rescue nil)
 
-    @batch_job = (params[:id].blank? ? nil : SearchItem.find(params[:id]).job_id rescue nil)
   end
 
   def create

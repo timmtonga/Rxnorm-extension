@@ -31,7 +31,7 @@ gem 'mysql2', '~> 0.3.18'
 gem 'text'
 gem 'delayed_job'
 gem 'delayed_job_active_record'
-
+gem 'concurrent-ruby'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 

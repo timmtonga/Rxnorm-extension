@@ -2,6 +2,7 @@ class LocalConcept < ActiveRecord::Base
 
   #validates_uniqueness_of :RXAUI
   before_create :complete_record
+  after_create :add_soundex
 
   def name
     return self.STR.humanize.gsub(/\b('?[a-z])/) { $1.capitalize } rescue ""
@@ -35,6 +36,12 @@ class LocalConcept < ActiveRecord::Base
 
   def self.deprecated_concepts
     LocalConcept.where(SUPPRESS:  'O')
+  end
+
+  def add_soundex
+    code = PhoneticCode.where(RXAUI: self.RXAUI, STR: self.STR,
+                              soundex: Text::Metaphone.metaphone(self.STR)).first_or_initialize
+    code.save if code.id.blank?
   end
 
   private

@@ -16,7 +16,6 @@ class SearchItem < ActiveRecord::Base
     else
       return "#{confirmed_matches_name} (#{self.confirmed_matches})"
     end
-
   end
 
   def confirmed_matches_name

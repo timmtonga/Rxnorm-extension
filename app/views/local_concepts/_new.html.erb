@@ -84,7 +84,7 @@
       </div>
     </div>
 
-    <%= f.hidden_field :batch_job, :value => (@batch_job rescue  nil) %>
+    <%= f.hidden_field :batch_job, :value => (@item.job_id rescue  nil) %>
 
     <div class="modal-footer">
       <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>

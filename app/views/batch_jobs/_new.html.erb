@@ -15,17 +15,8 @@
       </div>
     </div>
     <div class="modal-footer">
-      <div class="btn-group btn-group-justified" role="group" aria-label="group button">
-        <div class="btn-group" role="group">
-          <button type="button" class="btn btn-default" data-dismiss="modal"  role="button">Close</button>
-        </div>
-        <div class="btn-group btn-delete hidden" role="group">
-          <button class="btn btn-default btn-hover-red" data-dismiss="modal" role="button">Delete</button>
-        </div>
-        <div class="btn-group" role="group">
-          <%= f.submit 'Save', class:"btn btn-default btn-hover-green"%>
-        </div>
-      </div>
+      <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      <%= f.submit 'Save', class:"btn btn-success"%>
     </div>
 <% end %>
 
